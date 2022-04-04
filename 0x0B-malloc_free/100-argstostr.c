@@ -1,51 +1,45 @@
+#include "holberton.h"
 #include <stdlib.h>
 
 /**
- * argstostr - Concatenates all the arguments of the program
+ * argstostr - Concatenates all arguments of the program into a string;
+ *             arguments are separated by a new line in the string.
+ * @ac: The number of arguments passed to the program.
+ * @av: An array of pointers to the arguments.
  *
- * @ac: Argument total count
- *
- * @av: Pointer to arguments
- *
- * Retunr: Pointer to concatenated string (SUCCESS) or
- * NULL if @ac == 0 or @av == NULL (FAILURE) or
- * NULL if if insufficient memory was available (FAILURE)
+ * Return: If ac == 0, av == NULL, or the function fails - NULL.
+ *         Otherwise - a pointer to the new string.
  */
-
 char *argstostr(int ac, char **av)
 {
-	int i, j;
-	int count = 0;
-	int t_count = 0;
-	char *result;
+char *str;
+int arg, byte, index, size = ac;
 
-	if (ac == 0 || av == NULL)
-		return ('\0');
+if (ac == 0 || av == NULL)
+return (NULL);
 
-	for (i = 0; i < ac; i++)
-	{
-		for (j = 0; av[i][j] != '\0'; j++)
-			t_count++;
+for (arg = 0; arg < ac; arg++)
+{
+for (byte = 0; av[arg][byte]; byte++)
+size++;
+}
 
-		t_count++;
-	}
+str = malloc(sizeof(char) * size + 1);
 
-	result = malloc(sizeof(char) * t_count + 1);
+if (str == NULL)
+return (NULL);
 
-	if (result == NULL)
-	{
-		return ('\0');
-	}
+index = 0;
 
-	for (i = 0; i < ac; i++)
-	{
-		for (j = 0; av[i][j] != '\0'; j++)
-		{
-			result[count++] = av[i][j];
-		}
-		result[count++] = '\n';
-	}
+for (arg = 0; arg < ac; arg++)
+{
+for (byte = 0; av[arg][byte]; byte++)
+str[index++] = av[arg][byte];
 
-	result[t_count] = '\0';
-	return (result);
+str[index++] = '\n';
+}
+
+str[size] = '\0';
+
+return (str);
 }
